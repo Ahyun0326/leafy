@@ -3,9 +3,14 @@ FROM node:14 AS build
 
 WORKDIR /app
 
+COPY package.json .
+COPY package-lock.json .
+
+RUN npm ci
+
 # 빌드 컨텍스트의 소스코드를 작업 디렉토리로 복사, 라이브러리 설치 및 빌드
 COPY . /app
-RUN npm ci
+
 RUN npm run build
 
 # 런타임 이미지로 nginx 1.21.4 지정, /usr/share/nginx/html 폴더에 권한 추가
